@@ -1,0 +1,103 @@
+.docs-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .docs-header {
+    background: rgb(255, 255, 255);
+    color: rgb(2, 2, 2);
+    padding: 40px 20px;
+    text-align: center;
+  
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+  }
+  
+  .docs-content {
+    background: white;
+    padding: 40px 20px;
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+  
+    section {
+      margin-bottom: 40px;
+    }
+  
+    h2 {
+      color: rgb(247, 95, 0);
+      margin-bottom: 20px;
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  
+    .hover-effect {
+      transition: all 0.3s ease;
+      padding: 8px;
+      border-radius: 4px;
+  
+      &:hover {
+        transform: translateY(-2px);
+        background: rgba(247, 95, 0, 0.1);
+      }
+    }
+  }
+  
+  .back-button {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      z-index: 1000;
+    margin-bottom: 30px;
+    background: rgb(247, 95, 0);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: auto;
+  
+    &:hover {
+      background: rgba(247, 95, 0, 0.9);
+    }
+  }
+  
+  .docs-footer {
+    background: rgb(76, 76, 76);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    // grid-template-columns: repeat(3, 1fr);  // Alterado para 3 colunas
+    gap: 24px;
+    padding: 20px;
+  }
+  
+  .docs-block {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+  }
+  
