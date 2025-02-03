@@ -10,8 +10,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faCode, faStar, faCodeFork, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { GithubService } from '../services/github.service';
-import { Repository } from '../models/repository';
+import { Repository } from '../../models/repository';
+import { GithubService } from '../../services/github.service';
+
 
 @Component({
   selector: 'app-repo-search',
