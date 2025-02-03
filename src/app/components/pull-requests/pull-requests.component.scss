@@ -1,136 +1,149 @@
 .page-container {
-    min-height: 100vh;
-    padding: 24px;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.repo-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  outline: none;
+
+  &:hover, &:focus {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
   }
-  
-  .content-container {
-    max-width: 1200px;
-    margin: 0 auto;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.repo-icon {
+  color: #5c6bc0;
+}
+
+.repo-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  height: 3em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.repo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pr-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+
+  &.open {
+    background: #e3f2fd;
+    color: #1976d2;
   }
-  
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+
+  &.closed {
+    background: #fbe9e7;
+    color: #d32f2f;
   }
-  
-  .repo-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    outline: none;
-    
-    &:hover, &:focus {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-    }
-  }
-  
-  .card-content {
-    padding: 20px;
-  }
-  
-  .repo-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  
-  .repo-icon {
-    color: #5c6bc0;
-  }
-  
-  .repo-name {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #2c3e50;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .repo-description {
-    color: #666;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 16px;
-    height: 3em;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  
-  .repo-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .pr-status {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    text-transform: capitalize;
-    
-    &.open {
-      background: #e3f2fd;
-      color: #1976d2;
-    }
-    
-    &.closed {
-      background: #fbe9e7;
-      color: #d32f2f;
-    }
-  }
-  
-  .repo-stats {
-    display: flex;
-    gap: 16px;
-  }
-  
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
-  @media (max-width: 600px) {
-    .page-container {
-      padding: 16px;
-    }
-    
-    .grid-container {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-  }
-  .pr-stats {
-    background: white;
+}
+
+.repo-stats {
+  display: flex;
+  gap: 16px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.pr-stats {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.pr-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pr-count {
+  font-weight: 500;
+  &.open { color: #28a745; }
+  &.closed { color: #d73a49; }
+}
+
+.divider {
+  color: #666;
+}
+
+::ng-deep .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: #28a745;
+}
+
+::ng-deep .mat-checkbox-checked.mat-warn .mat-checkbox-background {
+  background-color: #d73a49;
+}
+
+@media (max-width: 600px) {
+  .page-container {
     padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr;
     gap: 16px;
   }
-  
-  .pr-count {
-    font-weight: 500;
-    &.open { color: #28a745; }
-    &.closed { color: #d73a49; }
-  }
-  
-  .divider {
-    color: #666;
-  }
-  
-  
+}
