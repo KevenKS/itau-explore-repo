@@ -19,4 +19,16 @@ export class GithubService {
     const url = `${this.baseUrl}/search/repositories?q=${language}+language:${language}&sort=stars&per_page=12&page=${page}`;
     return this.http.get(url, { headers: this.headers });
   }
+
+  getPullRequests(owner: string, repo: string, page: number): Observable<any> {
+    const url = `${this.baseUrl}/repos/${owner}/${repo}/pulls?state=all&per_page=12&page=${page}`;
+    return this.http.get(url, { headers: this.headers }).pipe(
+      map((response: any) => {
+        return {
+          items: response,
+          total_count: response.length * 5 // Para calcular o total de itens possíveis
+        };
+      })
+    );
+  }
 }
