@@ -1,1 +1,54 @@
-<p>pull-requests works!</p>
+<div class="page-container">
+    <div class="content-container">
+      <div class="pr-stats">
+        <span class="pr-count open">{{openPRCount}} PRs abertos</span>
+        <span class="divider">|</span>
+        <span class="pr-count closed">{{closedPRCount}} PRs fechados</span>
+      </div>
+      <div class="grid-container" role="list">
+        <div *ngFor="let pull of pullRequests" 
+             class="repo-card"
+             tabindex="0"
+             role="listitem"
+             [attr.aria-label]="'Pull Request ' + pull.title">
+          <div class="card-content">
+            <div class="repo-header">
+              <fa-icon [icon]="faCodePullRequest" class="repo-icon"></fa-icon>
+              <h3 class="repo-name">{{pull.title}}</h3>
+            </div>
+            
+            <p class="repo-description">{{pull.body}}</p>
+            
+            <div class="repo-footer">
+              <span class="pr-status" [ngClass]="pull.state">
+                {{pull.state}}
+              </span>
+              <div class="repo-stats">
+                <span class="stat">
+                  <fa-icon [icon]="faUser"></fa-icon>
+                  {{pull.user.login}}
+                </span>
+                <span class="stat">
+                  <fa-icon [icon]="faCalendar"></fa-icon>
+                  {{pull.created_at | date}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="pagination-container">
+        <mat-paginator
+          [length]="totalCount"
+          [pageSize]="12"
+          [pageIndex]="currentPage"
+          [pageSizeOptions]="[12]"
+          (page)="onPageChange($event)"
+          aria-label="Selecione a página">
+        </mat-paginator>
+      </div>
+      
+    </div>
+  </div>
+  
