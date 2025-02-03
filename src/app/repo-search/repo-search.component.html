@@ -1,0 +1,76 @@
+<div class="page-container">
+    <div class="content-container">
+      <div class="search-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Buscar por linguagem</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 (ngModelChange)="searchTermChanged($event)"
+                 placeholder="Ex: JavaScript"
+                 aria-label="Campo de busca por linguagem">
+        </mat-form-field>
+      </div>
+      <h1>Itau Repository Explorer</h1>
+      <div class="grid-container" role="list">
+        <div *ngFor="let repo of repositories; let i = index" 
+             class="repo-card"
+             (click)="navigateToPulls(repo.full_name)"
+             (keydown)="onKeyDown($event, repo.full_name)"
+             (keydown.arrowup)="onArrowNavigation($event, i)"
+             (keydown.arrowdown)="onArrowNavigation($event, i)"
+             tabindex="0"
+             role="listitem"
+             [attr.aria-label]="'Repositório ' + repo.full_name">
+          <div class="card-content">
+            <div class="repo-header">
+              <fa-icon [icon]="faCode" class="repo-icon"></fa-icon>
+              <h3 class="repo-name">{{repo.full_name}}</h3>
+            </div>
+            
+            <p class="repo-description">{{repo.description}}</p>
+            
+            <div class="repo-footer">
+              <span class="language-tag">
+                <span class="language-dot"></span>
+                {{repo.language}}
+              </span>
+              <div class="repo-stats">
+                <span class="stat">
+                  <fa-icon [icon]="faStar"></fa-icon>
+                  {{repo.stargazers_count}}
+                </span>
+                <span class="stat">
+                  <fa-icon [icon]="faCodeFork"></fa-icon>
+                  {{repo.forks_count}}
+                </span>
+                <span class="stat">
+                  <fa-icon [icon]="faCircleExclamation"></fa-icon>
+                  {{repo.open_issues_count}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pagination-container">
+        <mat-paginator
+          [length]="totalCount"
+          [pageSize]="12"
+          [pageIndex]="currentPage"
+          [pageSizeOptions]="[12]"
+          (page)="onPageChange($event)"
+          aria-label="Selecione a página">
+        </mat-paginator>
+      </div>
+  
+    </div>
+    
+    <div class="page-container">  
+      <footer class="footer">
+        <div class="footer-content">
+          <p>© KS-2025 GitHub Itau Repository Explorer</p>
+        </div>
+      </footer> 
+    </div> 
+  </div>
+  
