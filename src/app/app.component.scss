@@ -1,0 +1,44 @@
+.docs-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background:rgb(1, 29, 79);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: rgb(1, 29, 79); 
+    border:solid white 0.5px;
+  }    
+  .logo-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .docs-button:hover {
+    background:rgb(247, 95, 0);
+  }
+  
+  .header {
+    padding: 16px;
+    background: rgb(1, 29, 79);
+    border-bottom: 1px solid #eee;
+    align-items: center;
+  }    
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: space-between;
+  }
+  .logo {
+    height: 32px;
+    width: auto;
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+  }
