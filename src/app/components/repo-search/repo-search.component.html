@@ -1,18 +1,21 @@
 <div class="page-container">
-    <div class="content-container">
+  <div class="content-container">
+    <ng-container *ngIf="state$ | async as state">
       <div class="search-container">
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Buscar por linguagem</mat-label>
-          <input matInput 
-                 [(ngModel)]="searchTerm" 
+          <input matInput
+                 [(ngModel)]="state.searchTerm"
                  (ngModelChange)="searchTermChanged($event)"
                  placeholder="Ex: JavaScript"
                  aria-label="Campo de busca por linguagem">
         </mat-form-field>
       </div>
+
       <h1>Itau Repository Explorer</h1>
+
       <div class="grid-container" role="list">
-        <div *ngFor="let repo of repositories; let i = index" 
+        <div *ngFor="let repo of state.repositories; let i = index"
              class="repo-card"
              (click)="navigateToPulls(repo.full_name)"
              (keydown)="onKeyDown($event, repo.full_name)"
@@ -52,25 +55,25 @@
           </div>
         </div>
       </div>
+
       <div class="pagination-container">
         <mat-paginator
-          [length]="totalCount"
+          [length]="state.totalCount"
           [pageSize]="12"
-          [pageIndex]="currentPage"
+          [pageIndex]="state.currentPage"
           [pageSizeOptions]="[12]"
           (page)="onPageChange($event)"
           aria-label="Selecione a página">
         </mat-paginator>
       </div>
-  
-    </div>
-    
-    <div class="page-container">  
-      <footer class="footer">
-        <div class="footer-content">
-          <p>© KS-2025 GitHub Itau Repository Explorer</p>
-        </div>
-      </footer> 
-    </div> 
+    </ng-container>
   </div>
-  
+
+  <div class="page-container">  
+    <footer class="footer">
+      <div class="footer-content">
+        <p>© KS-2025 GitHub Itau Repository Explorer</p>
+      </div>
+    </footer>
+  </div>
+</div>

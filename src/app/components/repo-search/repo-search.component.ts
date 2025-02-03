@@ -7,91 +7,107 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { GithubService } from '../../services/github.service';
+import { SearchStateService } from '../../services/search-state.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faCode, faStar, faCodeFork, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { Repository } from '../../models/repository';
-import { GithubService } from '../../services/github.service';
-
 
 @Component({
   selector: 'app-repo-search',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatInputModule, 
-    MatCardModule, 
+    CommonModule,
+    FormsModule,
+    MatInputModule,
+    MatCardModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule, 
+    MatPaginatorModule,
     FontAwesomeModule
   ],
   templateUrl: './repo-search.component.html',
   styleUrls: ['./repo-search.component.scss']
 })
+
 export class RepoSearchComponent implements OnInit, OnDestroy {
-  searchTerm = '';
-  repositories: Repository[] = [];
-  isLoading = false;
-  currentPage = 0;
-  pageSize = 10;
-  totalCount = 0;
+  state$ = new BehaviorSubject<any>(null);
+
+  pageSize = 12;   // Definição do tamanho da página para paginação
   faSearch = faSearch;
   faCode = faCode;
   faStar = faStar;
   faCodeFork = faCodeFork;
   faCircleExclamation = faCircleExclamation;
+
+  // Subjects para controle de busca e gerenciamento de memória
   private searchSubject = new Subject<string>();
-  private subscription: Subscription = new Subscription();
+  private subscription = new Subscription();
 
   constructor(
     private githubService: GithubService,
-    private router: Router
-  ) {}
-  
-  // Para paginação sem delay
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.loadPage(this.searchTerm, this.currentPage + 1);
-  }
-  
-  loadPage(term: string, page: number) {
-    this.githubService.searchRepositories(term, page)
-      .subscribe(response => {
-        this.repositories = response.items;
-        this.totalCount = Math.min(response.total_count, 60);
-      });
+    private router: Router,
+    private searchStateService: SearchStateService
+  ) {
+    this.state$ = this.searchStateService.getState();
   }
 
+  // Inicialização do componente
   ngOnInit() {
-    this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(term => {
-      if (term) {
-        this.currentPage = 0;
-        this.performSearch(term);
-      }
-    });
+    this.subscription.add(
+      this.searchSubject.pipe(
+        debounceTime(300),        // Aguarda 300ms entre inputs
+        distinctUntilChanged()    // Evita chamadas duplicadas
+      ).subscribe(term => {
+        if (term) {
+          this.searchStateService.setState({ currentPage: 0 });
+          this.performSearch(term);
+        }
+      })
+    );
   }
 
+  // Limpeza de recursos ao destruir o componente. (Comentario da Eduarda)
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
+  // Método chamado quando o termo de busca muda
   searchTermChanged(term: string) {
     this.searchSubject.next(term);
   }
 
-  private performSearch(term: string) {
-    this.githubService.searchRepositories(term, 1)
+  // Manipulador de eventos de paginação
+  onPageChange(event: PageEvent) {
+    this.searchStateService.setState({ currentPage: event.pageIndex });
+    const state = this.searchStateService.getState().getValue();
+    this.loadPage(state.searchTerm, event.pageIndex + 1);
+  }
+
+  // Carrega uma página específica de resultados
+  loadPage(term: string, page: number) {
+    this.githubService.searchRepositories(term, page)
       .subscribe(response => {
-        this.repositories = response.items.slice(0, 12);
-        this.totalCount = Math.min(response.total_count, 60); // 12 itens * 5 páginas
+        this.searchStateService.setState({
+          repositories: response.items,
+          totalCount: Math.min(response.total_count, 60)
+        });
       });
   }
 
+  // Realiza a busca inicial
+  private performSearch(term: string) {
+    this.githubService.searchRepositories(term, 1)
+      .subscribe(response => {
+        this.searchStateService.setState({
+          repositories: response.items.slice(0, 12),
+          totalCount: Math.min(response.total_count, 60),
+          searchTerm: term
+        });
+      });
+  }
+
+  // Manipulador de eventos de teclado
   onKeyDown(event: KeyboardEvent, fullName: string) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -99,6 +115,7 @@ export class RepoSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Navegação por setas entre cards
   onArrowNavigation(event: KeyboardEvent | any, index: number) {
     const cards = document.querySelectorAll('.repo-card');
     if (event.key === 'ArrowDown' && index < cards.length - 1) {
@@ -109,6 +126,7 @@ export class RepoSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Navegação para página de pull requests
   navigateToPulls(fullName: string) {
     this.router.navigate(['/pulls', fullName]);
   }
