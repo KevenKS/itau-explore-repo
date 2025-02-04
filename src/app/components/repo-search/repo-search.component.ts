@@ -11,7 +11,7 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, Subject, Subscript
 import { GithubService } from '../../services/github.service';
 import { SearchStateService } from '../../services/search-state.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSearch, faCode, faStar, faCodeFork, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCode, faStar, faCodeFork, faCircleExclamation, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-repo-search',
@@ -39,6 +39,7 @@ export class RepoSearchComponent implements OnInit, OnDestroy {
   faStar = faStar;
   faCodeFork = faCodeFork;
   faCircleExclamation = faCircleExclamation;
+  faTimes = faTimes;
 
   // Subjects para controle de busca e gerenciamento de memória
   private searchSubject = new Subject<string>();
@@ -70,6 +71,15 @@ export class RepoSearchComponent implements OnInit, OnDestroy {
   // Limpeza de recursos ao destruir o componente. (Comentario da Eduarda)
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  limparInput() {
+    this.searchStateService.setState({
+      searchTerm: '',
+      repositories: [],
+      totalCount: 0,
+      currentPage: 0
+    });
   }
 
   // Método chamado quando o termo de busca muda

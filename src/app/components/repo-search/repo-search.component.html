@@ -5,10 +5,16 @@
         <mat-form-field appearance="outline" class="search-field">
           <mat-label>Buscar por linguagem</mat-label>
           <input matInput
-                 [(ngModel)]="state.searchTerm"
-                 (ngModelChange)="searchTermChanged($event)"
-                 placeholder="Ex: JavaScript"
-                 aria-label="Campo de busca por linguagem">
+           [(ngModel)]="state.searchTerm"
+           (ngModelChange)="searchTermChanged($event)"
+           placeholder="Ex: JavaScript"
+           aria-label="Campo de busca por linguagem">
+          <fa-icon *ngIf="state.searchTerm"
+                  [icon]="faTimes"
+                  class="clear-icon"
+                  (click)="limparInput()"
+                  matSuffix>
+          </fa-icon>
         </mat-form-field>
       </div>
 
