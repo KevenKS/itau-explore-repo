@@ -16,6 +16,19 @@
     width: 100%;
     max-width: 600px;
   }
+
+  .clear-icon {
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease;
+    margin-right: 12px;
+    position: relative;
+    right: 8px;
+    
+    &:hover {
+      color: #333;
+    }
+  }
   
   .search-field {
     width: 100%;
