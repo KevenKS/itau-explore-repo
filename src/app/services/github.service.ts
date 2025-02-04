@@ -10,7 +10,7 @@ export class GithubService {
   // criação do token para mais acesso a api
   private headers = new HttpHeaders({
     'Accept': 'application/vnd.github.v3+json',
-    'Authorization': 'Bearer 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'
+    'Authorization': 'Bearer seu_token_aqui'
   });
 
   constructor(private http: HttpClient) {}
